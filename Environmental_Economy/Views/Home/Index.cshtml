@@ -35,6 +35,8 @@
         return coo; 
     }
 
+    var circle = null;
+
     function initMap() {
         // The map, centered at Danang
         var map = new google.maps.Map(
@@ -43,7 +45,10 @@
         // var marker = new google.maps.Marker({position: dad, map: map});
         map.addListener('click', function (e) {
             //placeMarkerAndPanTo(e.latLng, map);
-            var circle = new google.maps.Circle({
+            if (circle != null) {
+                circle.setMap(null);
+            }
+            circle = new google.maps.Circle({
                 strokeColor: '#ed370e',
                 strokeOpacity: 0.6,
                 strokeWeight: 2,
@@ -89,14 +94,14 @@
             content: contentString
         });
 
-        var marker = new google.maps.Marker({
-            position: dad,
-            map: map,
-            title: 'Uluru (Ayers Rock)'
-        });
-        marker.addListener('click', function () {
-            infowindow.open(map, marker);
-        });
+        //var marker = new google.maps.Marker({
+        //    position: dad,
+        //    map: map,
+        //    title: 'Uluru (Ayers Rock)'
+        //});
+        //marker.addListener('click', function () {
+        //    infowindow.open(map, marker);
+        //});
     }
 
     function placeMarkerAndPanTo(latLng, map) {
