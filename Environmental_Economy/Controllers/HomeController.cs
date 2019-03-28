@@ -24,10 +24,8 @@ namespace Environmental_Economy.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Map()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
