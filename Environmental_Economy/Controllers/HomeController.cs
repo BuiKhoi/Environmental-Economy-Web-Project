@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnvironmentalEconomy.Models.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,9 @@ namespace Environmental_Economy.Controllers
     {
         public ActionResult Index()
         {
+            //FirebaseDB db = new FirebaseDB("https://andrfire-89083.firebaseio.com/");
+            //var fbrespond = db.Node("UserCount").Node("TK001").Get();
+
             return View();
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Environmental_Economy.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,9 +15,12 @@ namespace Environmental_Economy.Controllers
             return View();
         }
 
-        public JsonResult GetLocationDesc()
+        public JsonResult GetLocationDesc(Scope scope)
         {
-            return Json("Got this");
+            //Process the values
+
+            var av = new AirValue(1.23, 3.45, 5.67);
+            return Json(av);
         } 
     }
 }
