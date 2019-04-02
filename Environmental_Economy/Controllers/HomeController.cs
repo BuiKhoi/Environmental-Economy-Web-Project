@@ -1,4 +1,6 @@
-﻿using EnvironmentalEconomy.Models.Database;
+﻿using EnvironmentalEconomy.Models;
+using EnvironmentalEconomy.Models.Database;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,6 @@ namespace Environmental_Economy.Controllers
     {
         public ActionResult Index()
         {
-            //FirebaseDB db = new FirebaseDB("https://andrfire-89083.firebaseio.com/");
-            //var fbrespond = db.Node("UserCount").Node("TK001").Get();
-
             return View();
         }
 
@@ -26,7 +25,30 @@ namespace Environmental_Economy.Controllers
 
         public ActionResult Map()
         {
-            return View();
+            FirebaseDB db = new FirebaseDB("https://andrfire-89083.firebaseio.com/");
+            var fbrespond = db.Node("UserResult").Get();
+            List<ResultDbModel> results = new List<ResultDbModel>();
+            var RespondResult = JsonConvert.DeserializeObject<Dictionary<string, List<UserResult>>>(fbrespond.JSONContent);
+            foreach (var item in RespondResult)
+            {
+                var rst = new ResultDbModel(item.Key);
+                int count = 0;
+                foreach (var result in item.Value)
+                {
+                    if (result == null)
+                    {
+
+                    } else
+                    {
+                        result.TokenId = item.Key;
+                        result.ResultId = count++;
+                        rst.Results.Add(result);
+                    } 
+                }
+                results.Add(rst);
+            }
+
+            return View(results);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace EnvironmentalEconomy.Models
 {
     public class UserResult
@@ -31,6 +33,18 @@ namespace EnvironmentalEconomy.Models
         public Location GetLocation()
         {
             return new Location(Latitude, Longtitude);
+        }
+    }
+
+    public class ResultDbModel
+    {
+        public string Token { get; set; }
+        public List<UserResult> Results { get; set; }
+
+        public ResultDbModel(string Token)
+        {
+            this.Token = Token;
+            this.Results = new List<UserResult>();
         }
     }
 }
