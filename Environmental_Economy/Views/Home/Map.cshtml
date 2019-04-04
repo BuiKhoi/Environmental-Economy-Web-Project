@@ -22,7 +22,7 @@
 
 <!--The div element for the map -->
 <div id="map"></div>
-<input id="txtSearch" class="controls searchbox searchbox-shadow 
+<input id="txtSearch" class="controls searchbox searchbox-shadow
        noprint directions-button-shown searchbox-empty suggestions-shown" type="text" placeholder="Search Box">
 
 
@@ -59,7 +59,7 @@
         heatmap = new google.maps.visualization.HeatmapLayer({
             data: getPoints(),
             map: map,
-            gradient: getGradient()
+            //gradient: getGradient()
         });
 
         map.addListener('click', function (e) {
@@ -103,7 +103,7 @@
         map.addListener('bounds_changed', function () {
             searchBox.setBounds(map.getBounds());
         });
-        
+
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function () {
@@ -129,37 +129,49 @@
 
         function SendScope(circle) {
             coo = GetCoor(circle.getCenter().toString(), circle.getRadius());
-            console.log(coo);
-            $.ajax({
-                url: '@Url.Action("GetLocationDesc", "Process")',
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(new Scope(coo.latitude, coo.longitude, coo.radius)),
-                success: function (e) {
-                    console.log(e);
-                    var str = '<div id="content">' +
-                        '<div id="siteNotice">' +
-                        '</div>' +
-                        '<h2 id="firstHeading" class="firstHeading">Description</h2>' +
-                        '<div id="bodyContent">' +
-                        '<p>Mean Tempurature: <b>' + e.MeanTemp + '</b></p>' +
-                        '<p>Mean Humidity: <b>' + e.MeanHumd + '</b></p>' +
-                        '<p>Mean Air Quality: <b>' + e.MeanQual + '</b></p>' +
-                        '</div>' +
-                        '<div align="center"><input type="button" class="btn btn-primary" value="View Details"/></div>' +
-                        '</div>';
-                    if (infowindow != null) {
-                        infowindow.setMap(null);
-                    }
-                    infowindow = new google.maps.InfoWindow({
-                        content: str,
-                        position: circle.getCenter()
-                    });
-
-                    infowindow.open(map);
+            var MeanTemp = 0;
+            var MeanHumd = 0;
+            var MeanQual = 0;
+            var count = 0;
+            @foreach (var item in Model)
+            {
+                foreach(var res in item.Results)
+                {
+                    <text>
+            var dist = distance(coo.latitude, coo.longitude, @res.Latitude, @res.Longtitude);
+            if (dist < coo.radius) {
+                MeanTemp += @res.Temperature;
+                MeanHumd += @res.Humidity;
+                MeanQual += @res.AirQuality;
+                count += 1;
+            }
+                    </text>
                 }
-            })
+            }
+
+            MeanTemp /= count;
+            MeanHumd /= count;
+            MeanQual /= count;
+
+            var str = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h2 id="firstHeading" class="firstHeading">Description</h2>' +
+                '<div id="bodyContent">' +
+                '<p>Mean Tempurature: <b>' + MeanTemp + '</b></p>' +
+                '<p>Mean Humidity: <b>' + MeanHumd + '</b></p>' +
+                '<p>Mean Air Quality: <b>' + MeanQual + '</b></p>' +
+                '</div>' +
+                '<div align="center"><input type="button" class="btn btn-primary" value="View Details"/></div>' +
+                '</div>';
+            if (infowindow != null) {
+                infowindow.setMap(null);
+            }
+            infowindow = new google.maps.InfoWindow({
+                content: str,
+                position: circle.getCenter()
+            });
+            infowindow.open(map);
         }
     }
 
@@ -179,9 +191,9 @@
             foreach(var res in item.Results)
             {
                 <text>points.push({
-            location: new google.maps.LatLng(@res.Latitude, @res.Longtitude),
-            weight: @res.AirQual * 0.1
-        })</text>
+                    location: new google.maps.LatLng(@res.Latitude, @res.Longtitude),
+                    weight: @res.AirQuality * 0.1
+                    })</text>
             }
         }
         return points;
@@ -204,6 +216,18 @@
             'rgba(191, 0, 31, 1)',
             'rgba(255, 0, 0, 1)'
         ];
+    }
+
+    function distance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // km (change this constant to get miles)
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return Math.round(d * 1000);
     }
 
 </script>

@@ -28,22 +28,20 @@ namespace Environmental_Economy.Controllers
             FirebaseDB db = new FirebaseDB("https://andrfire-89083.firebaseio.com/");
             var fbrespond = db.Node("UserResult").Get();
             List<ResultDbModel> results = new List<ResultDbModel>();
-            var RespondResult = JsonConvert.DeserializeObject<Dictionary<string, List<UserResult>>>(fbrespond.JSONContent);
+            var RespondResult = JsonConvert.DeserializeObject
+                <Dictionary<string, Dictionary<string, UserResult>>>(fbrespond.JSONContent);
             foreach (var item in RespondResult)
             {
                 var rst = new ResultDbModel(item.Key);
                 int count = 0;
-                foreach (var result in item.Value)
+                foreach (var result in item.Value.Values)
                 {
-                    if (result == null)
-                    {
-
-                    } else
+                    if (result != null)
                     {
                         result.TokenId = item.Key;
                         result.ResultId = count++;
                         rst.Results.Add(result);
-                    } 
+                    }
                 }
                 results.Add(rst);
             }

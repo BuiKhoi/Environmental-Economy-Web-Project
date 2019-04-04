@@ -9,9 +9,9 @@ namespace EnvironmentalEconomy.Models
         public string TokenId { get; set; }
         public double Latitude { get; set; }
         public double Longtitude { get; set; }
-        public double Tempurature { get; set; }
+        public double Temperature { get; set; }
         public double Humidity { get; set; }
-        public double AirQual { get; set; }
+        public double AirQuality { get; set; }
 
         public UserResult()
         {
@@ -24,7 +24,7 @@ namespace EnvironmentalEconomy.Models
         public double Longtitude { get; set; }
         public double Tempurature { get; set; }
         public double Humidity { get; set; }
-        public double AirQual { get; set; }
+        public double AirQuality { get; set; }
 
         public ResultViewModel()
         {
