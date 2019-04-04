@@ -255,6 +255,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
     <Content Include="Views\Home\Map.cshtml" />
+    <Content Include="Views\Home\LocationDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

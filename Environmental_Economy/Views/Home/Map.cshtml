@@ -24,6 +24,7 @@
 <div id="map"></div>
 <input id="txtSearch" class="controls searchbox searchbox-shadow
        noprint directions-button-shown searchbox-empty suggestions-shown" type="text" placeholder="Search Box">
+<button onclick="PanCurrentLocation()" value="Current Location"> Location</button>
 
 
 <script>
@@ -108,8 +109,8 @@
         // more details for that place.
         searchBox.addListener('places_changed', function () {
             var places = searchBox.getPlaces();
-
-            var coo = GetCoor(places.geometry.location.toString(), 0);
+            console.log(places.length);
+            var coo = GetCoor(places[0].geometry.location.toString(), 0);
             console.log(coo);
             map.panTo(new google.maps.LatLng(coo.latitude, coo.longitude));
             circle = new google.maps.Circle({
@@ -162,7 +163,7 @@
                 '<p>Mean Humidity: <b>' + MeanHumd + '</b></p>' +
                 '<p>Mean Air Quality: <b>' + MeanQual + '</b></p>' +
                 '</div>' +
-                '<div align="center"><input type="button" class="btn btn-primary" value="View Details"/></div>' +
+                '<div align="center"><input type="button" onclick="GetDetails()" class="btn btn-primary" value="View Details"/></div>' +
                 '</div>';
             if (infowindow != null) {
                 infowindow.setMap(null);
@@ -181,6 +182,27 @@
             map: map
         });
         map.panTo(latLng);
+    }
+
+    function PanCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getPos);
+        }
+    }
+
+    function getPos(position) {
+        console.log("Latitude: " + position.coords.latitude +
+            "\nLongitude: " + position.coords.longitude);
+        map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+    }
+
+    
+    function GetDetails() {
+        coo = GetCoor(circle.getCenter().toString(), circle.getRadius());
+        window.location.href = "@Url.Action("LocationDetails", "Home")?Latitude=" + coo.latitude +
+            "&Longitude=" + coo.longitude +
+            "&Radius=" + coo.radius;
+        console.log("Getting details");
     }
 
     function getPoints() {

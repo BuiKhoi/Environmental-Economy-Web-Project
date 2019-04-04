@@ -1,4 +1,5 @@
-﻿using EnvironmentalEconomy.Models;
+﻿using Environmental_Economy.Models;
+using EnvironmentalEconomy.Models;
 using EnvironmentalEconomy.Models.Database;
 using Newtonsoft.Json;
 using System;
@@ -47,6 +48,12 @@ namespace Environmental_Economy.Controllers
             }
 
             return View(results);
+        }
+
+        [HttpGet]
+        public ActionResult LocationDetails(Scope scope)
+        {
+            return View();
         }
     }
 }
