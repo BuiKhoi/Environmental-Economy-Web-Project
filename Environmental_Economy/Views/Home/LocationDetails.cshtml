@@ -4,5 +4,80 @@
     Layout = "~/Views/Shared/_IndexLayout.cshtml";
 }
 
-<h2>LocationDetails</h2>
+<head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</head>
+
+<body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+    <script type="text/javascript">
+
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Bolivia');
+            data.addColumn('number', 'Ecuador');
+            data.addColumn('number', 'Madagascar');
+            data.addColumn('number', 'Papua New Guinea');
+            data.addColumn('number', 'Rwanda');
+            data.addColumn('number', 'Average');
+            data.addRows([
+                ['2004/05', 165, 938, 522, 998, 450, 61],
+                ['2005/06', 135, 1500, 599, 1268, 288, 68],
+                ['2006/07', 157, 1167, 587, 807, 397, 62],
+                ['2007/08', 139, 1110, 615, 968, 215, 60],
+                ['2008/09', 136, 691, 629, 1026, 366, 56]
+            ]);
+
+            // Set chart options
+            var options = {
+                'title': 'Monthly Coffee Production by Country',
+                'width': 1600,
+                'height': 600,
+                vAxes: {
+                    0: {
+                        title: 'Cups',
+                        logScale: false
+                    },
+                    1: {
+                        title: 'Average',
+                        logScale: false,
+                        maxValue: 80
+                    }
+                },
+                hAxis: { title: 'Month' },
+                seriesType: 'bars',
+                series: {
+                    5: {
+                        targetAxisIndex: 1,
+                        type: 'line'
+                    }
+                },
+                animation: {
+                    startup: true,
+                    duration: 1000
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+
+
+</body>
 

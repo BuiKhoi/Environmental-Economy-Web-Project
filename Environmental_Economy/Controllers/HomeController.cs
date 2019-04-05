@@ -55,5 +55,10 @@ namespace Environmental_Economy.Controllers
         {
             return View();
         }
+
+        public ActionResult Debug()
+        {
+            return View();
+        }
     }
 }
