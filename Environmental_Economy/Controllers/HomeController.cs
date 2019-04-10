@@ -12,6 +12,7 @@ namespace Environmental_Economy.Controllers
 {
     public class HomeController : Controller
     {
+        List<ResultDbModel> results = new List<ResultDbModel>();
         public ActionResult Index()
         {
             return View();
@@ -28,20 +29,18 @@ namespace Environmental_Economy.Controllers
         {
             FirebaseDB db = new FirebaseDB("https://andrfire-89083.firebaseio.com/");
             var fbrespond = db.Node("UserResult").Get();
-            List<ResultDbModel> results = new List<ResultDbModel>();
             var RespondResult = JsonConvert.DeserializeObject
                 <Dictionary<string, Dictionary<string, UserResult>>>(fbrespond.JSONContent);
             foreach (var item in RespondResult)
             {
                 var rst = new ResultDbModel(item.Key);
-                int count = 0;
-                foreach (var result in item.Value.Values)
+                var val = item.Value;
+                foreach (var result in val)
                 {
-                    if (result != null)
+                    if (result.Value != null)
                     {
-                        result.TokenId = item.Key;
-                        result.ResultId = count++;
-                        rst.Results.Add(result);
+                        //result.Value.Date = DateTime.Parse(result.Key);
+                        rst.Results.Add(result.Value);
                     }
                 }
                 results.Add(rst);
@@ -53,7 +52,13 @@ namespace Environmental_Economy.Controllers
         [HttpGet]
         public ActionResult LocationDetails(Scope scope)
         {
-            return View();
+            var ldvm = new LocationDetailViewModel();
+            if (scope != null)
+            {
+                ldvm.scope = scope;
+            }
+            ldvm.Results = results;
+            return View(ldvm);
         }
 
         public ActionResult Debug()

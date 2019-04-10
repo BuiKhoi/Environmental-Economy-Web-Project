@@ -1,4 +1,5 @@
-﻿
+﻿@using EnvironmentalEconomy.Models
+@model LocationDetailViewModel
 @{
     ViewBag.Title = "LocationDetails";
     Layout = "~/Views/Shared/_IndexLayout.cshtml";
@@ -7,77 +8,155 @@
 <head>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    @Scripts.Render("~/Scripts/Map.js")
+    <style>
+        #map {
+            width: 100%; /* The width is the width of the web page */
+            height: 650px; /* The height is 400 pixels */
+        }
+    </style>
 </head>
 
 <body>
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-    <script type="text/javascript">
+    <div class="col-md-7">
+        <div id="map"></div>
+    </div>
 
-        // Load the Visualization API and the corechart package.
-        google.charts.load('current', { 'packages': ['corechart'] });
+    <div class="col-md-5">
+        <div id="Chart"></div>
+        <script type="text/javascript">
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.charts.setOnLoadCallback(drawChart);
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', { 'packages': ['corechart'] });
 
-        // Callback that creates and populates a data table,
-        // instantiates the pie chart, passes in the data and
-        // draws it.
-        function drawChart() {
-            // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Bolivia');
-            data.addColumn('number', 'Ecuador');
-            data.addColumn('number', 'Madagascar');
-            data.addColumn('number', 'Papua New Guinea');
-            data.addColumn('number', 'Rwanda');
-            data.addColumn('number', 'Average');
-            data.addRows([
-                ['2004/05', 165, 938, 522, 998, 450, 61],
-                ['2005/06', 135, 1500, 599, 1268, 288, 68],
-                ['2006/07', 157, 1167, 587, 807, 397, 62],
-                ['2007/08', 139, 1110, 615, 968, 215, 60],
-                ['2008/09', 136, 691, 629, 1026, 366, 56]
-            ]);
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawChart);
 
-            // Set chart options
-            var options = {
-                'title': 'Monthly Coffee Production by Country',
-                'width': 1600,
-                'height': 600,
-                vAxes: {
-                    0: {
-                        title: 'Cups',
-                        logScale: false
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+            // draws it.
+            function drawChart() {
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Bolivia');
+                data.addColumn('number', 'Ecuador');
+                data.addColumn('number', 'Madagascar');
+                data.addColumn('number', 'Papua New Guinea');
+                data.addColumn('number', 'Rwanda');
+                data.addColumn('number', 'Average');
+                data.addRows([
+                    ['2004/05', 165, 938, 522, 998, 450, 61],
+                    ['2005/06', 135, 1500, 599, 1268, 288, 68],
+                    ['2006/07', 157, 1167, 587, 807, 397, 62],
+                    ['2007/08', 139, 1110, 615, 968, 215, 60],
+                    ['2008/09', 136, 691, 629, 1026, 366, 56]
+                ]);
+
+                // Set chart options
+                var options = {
+                    'title': 'Monthly Coffee Production by Country',
+                    'width': (window.screen.availWidth * 5 / 12),
+                    'height': window.screen.availHeight * 5 / 10,
+                    vAxes: {
+                        0: {
+                            title: 'Cups',
+                            logScale: false
+                        },
+                        1: {
+                            title: 'Average',
+                            logScale: false,
+                            maxValue: 80
+                        }
                     },
-                    1: {
-                        title: 'Average',
-                        logScale: false,
-                        maxValue: 80
+                    hAxis: { title: 'Month' },
+                    seriesType: 'bars',
+                    series: {
+                        5: {
+                            targetAxisIndex: 1,
+                            type: 'line'
+                        }
+                    },
+                    animation: {
+                        startup: true,
+                        duration: 1000
                     }
-                },
-                hAxis: { title: 'Month' },
-                seriesType: 'bars',
-                series: {
-                    5: {
-                        targetAxisIndex: 1,
-                        type: 'line'
-                    }
-                },
-                animation: {
-                    startup: true,
-                    duration: 1000
-                }
-            };
+                };
 
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        }
-    </script>
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.ComboChart(document.getElementById('Chart'));
+                chart.draw(data, options);
+            }
+        </script>
 
-
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <label>Filter by: </label> <br />
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Filter" value="Day" id="RadioDay" />
+                <label class="form-check-label" for="RadioDay">
+                    &nbsp;&nbsp;&nbsp; One Day
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Filter" value="Month" id="RadioMonth" />
+                <label class="form-check-label" for="RadioMonth">
+                    &nbsp;&nbsp;&nbsp; One Month
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Filter" value="Year" id="RadioYear" />
+                <label class="form-check-label" for="RadioYear">
+                    &nbsp;&nbsp;&nbsp; One Year
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Filter" value="Year" id="RadioCustom" />
+                <label class="form-check-label" for="RadioCustom">
+                    &nbsp;&nbsp;&nbsp; Custom
+                </label>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    function GetScope(scope) {
+        if (scope == null) {
+            if (circle == null) {
+                return null;
+            } else {
+                return GetCoor(circle.circle.getCenter(), circle.getRadius());
+            }
+        } else return scope;
+    }
+
+    function FilterScope(start, end, scope) {
+        var results = [];
+        if (start == null) {
+            start = new Date(2019, 01, 01, 0, 0, 0);
+            end = new Date();
+        }
+
+        @foreach (var item in Model.Results)
+        {
+            foreach (var res in item.Results)
+            {
+                <text>
+        var date = new Date(@res.Date.ToString())
+        var dist = distance(coo.latitude, coo.longitude, @res.Latitude, @res.Longtitude);
+        if (date > start && date < end && dist < scope.radius) {
+            var res = @res;
+            results.push(res);
+        }
+                </text>
+            }
+        }
+
+        return results;
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoQ6pmUSRHQR2jaOIE66oHHJs9QSPL3vg&callback=initMap&libraries=places,visualization">
+</script>
 

@@ -30,6 +30,10 @@
 
             chart.draw(data, options);
 
+            var chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
+
+            chart1.draw(data, options);
+
             setInterval(function () {
                 data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
                 chart.draw(data, options);
@@ -46,6 +50,9 @@
     </script>
 </head>
 <body>
-    <div id="chart_div" style="width: 400px; height: 120px;"></div>
+    <div>
+        <div id="chart_div" style="width: 400px; height: 120px;" class="col-md-4"></div>
+        <div id="chart_div1" style="width: 400px; height: 120px;" class="col-md-4"></div>
+    </div>
 </body>
 
