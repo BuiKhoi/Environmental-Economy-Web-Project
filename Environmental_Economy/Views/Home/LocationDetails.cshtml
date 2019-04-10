@@ -26,6 +26,7 @@
     <div class="col-md-5">
         <div id="Chart"></div>
         <script type="text/javascript">
+            var InitLocation = { lat: @Model.scope.Latitude, lng: @Model.scope.Longitude };
 
             // Load the Visualization API and the corechart package.
             google.charts.load('current', { 'packages': ['corechart'] });

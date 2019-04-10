@@ -52,5 +52,11 @@ namespace EnvironmentalEconomy.Models
     {
         public Scope scope { get; set; }
         public List<ResultDbModel> Results { get; set; }
+
+        public LocationDetailViewModel()
+        {
+            this.scope = new Scope(16.061642, 108.234741, 300);
+            this.Results = new List<ResultDbModel>();
+        }
     }
 }

@@ -3,7 +3,6 @@
 //var dad = { lat: 16.061195, lng: 108.228185 };
 var map;
 var heatmap;
-var dad = { lat: 16.062034, lng: 108.236130 };
 var circle = null;
 var infowindow = null;
 
@@ -26,7 +25,7 @@ function GetCoor(str, radius) {
 function initMap() {
     // The map, centered at Danang
     map = new google.maps.Map(
-        document.getElementById('map'), { zoom: 15, center: dad });
+        document.getElementById('map'), { zoom: 15, center: InitLocation });
 
     heatmap = new google.maps.visualization.HeatmapLayer({
         data: getPoints(),

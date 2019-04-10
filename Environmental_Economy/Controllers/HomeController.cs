@@ -53,7 +53,7 @@ namespace Environmental_Economy.Controllers
         public ActionResult LocationDetails(Scope scope)
         {
             var ldvm = new LocationDetailViewModel();
-            if (scope != null)
+            if (!scope.CheckNullScope())
             {
                 ldvm.scope = scope;
             }
