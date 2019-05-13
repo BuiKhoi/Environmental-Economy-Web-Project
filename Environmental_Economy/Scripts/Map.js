@@ -5,6 +5,7 @@ var map;
 var heatmap;
 var circle = null;
 var infowindow = null;
+var Polylines = [];
 
 function Scope(latitude, longitude, radius) {
     this.latitude = latitude;
@@ -50,6 +51,7 @@ function initMap() {
             editable: true
         });
         map.panTo(e.latLng);
+        CleanRoutes();
         SendScope(circle);
 
         circle.addListener('radius_changed', function (e) {
@@ -100,6 +102,15 @@ function initMap() {
         SendScope(circle);
         //map.fitBounds(bounds);
     });
+}
+
+function CleanRoutes() {
+    if (Polylines.length != 0) {
+        Polylines.forEach(function (polyline) {
+            polyline.setMap(null);
+        })
+    }
+    Polylines = [];
 }
 
 function placeMarkerAndPanTo(latLng, map) {

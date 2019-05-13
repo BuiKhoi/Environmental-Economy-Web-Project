@@ -41,18 +41,14 @@
                 // Create the data table.
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Topping');
-                data.addColumn('number', 'Bolivia');
-                data.addColumn('number', 'Ecuador');
-                data.addColumn('number', 'Madagascar');
-                data.addColumn('number', 'Papua New Guinea');
-                data.addColumn('number', 'Rwanda');
-                data.addColumn('number', 'Average');
+                data.addColumn('number', 'Temperature');
+                data.addColumn('number', 'Air Pollution');
                 data.addRows([
-                    ['2004/05', 165, 938, 522, 998, 450, 61],
-                    ['2005/06', 135, 1500, 599, 1268, 288, 68],
-                    ['2006/07', 157, 1167, 587, 807, 397, 62],
-                    ['2007/08', 139, 1110, 615, 968, 215, 60],
-                    ['2008/09', 136, 691, 629, 1026, 366, 56]
+                    ['2004/05', 165, 35],
+                    ['2005/06', 135, 36],
+                    ['2006/07', 157, 34],
+                    ['2007/08', 139, 40],
+                    ['2008/09', 136, 42]
                 ]);
 
                 // Set chart options
@@ -62,19 +58,19 @@
                     'height': window.screen.availHeight * 5 / 10,
                     vAxes: {
                         0: {
-                            title: 'Cups',
+                            title: 'Air Pollution',
                             logScale: false
                         },
                         1: {
-                            title: 'Average',
+                            title: 'Temperature',
                             logScale: false,
-                            maxValue: 80
+                            maxValue: 60
                         }
                     },
                     hAxis: { title: 'Month' },
                     seriesType: 'bars',
                     series: {
-                        5: {
+                        1: {
                             targetAxisIndex: 1,
                             type: 'line'
                         }
