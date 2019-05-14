@@ -5,7 +5,7 @@ var map;
 var heatmap;
 var circle = null;
 var infowindow = null;
-var Polylines = [];
+var Routes = [];
 
 function Scope(latitude, longitude, radius) {
     this.latitude = latitude;
@@ -110,6 +110,13 @@ function CleanRoutes() {
             polyline.setMap(null);
         })
     }
+
+    if (PolyWindows.length != 0) {
+        PolyWindows.forEach(function (window) {
+            window.setMap(null);
+        })
+    }
+    PolyWindows = [];
     Polylines = [];
 }
 
@@ -162,4 +169,14 @@ function distance(lat1, lon1, lat2, lon2) {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     return Math.round(d * 1000);
+}
+
+function degrees_to_radians(degrees) {
+    var pi = Math.PI;
+    return degrees * (pi / 180);
+}
+
+function radians_to_degrees(rad) {
+    var pi = Math.PI;
+    return rad / (pi / 180);
 }
