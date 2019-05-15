@@ -51,10 +51,11 @@
     }
 
     .btn {
-        margin:0px;
+        margin: 0px;
     }
+
     .btn-primary {
-        margin:0px;
+        margin: 0px;
     }
 
     #btnSelect {
@@ -64,9 +65,7 @@
         box-sizing: border-box; /* Opera/IE 8+ */
         width: 100%;
         margin: 0 auto;
-        color: white;
         font-family: inherit;
-        background-color: #007bff;
         font-weight: 400;
         font-size: 1rem;
         border-top-color: transparent;
@@ -117,6 +116,7 @@
     var InitLocation = { lat: 16.062034, lng: 108.236130 };
     var Polylines = [];
     var PolyWindows = [];
+    var Qualities = [];
     function SendScope(circle) {
         coo = GetCoor(circle.getCenter().toString(), circle.getRadius());
         var MeanTemp = 0;
@@ -148,9 +148,9 @@
             '</div>' +
             '<h2 id="firstHeading" class="firstHeading">Description</h2>' +
             '<div id="bodyContent">' +
-            '<p>Mean Tempurature: <b>' + MeanTemp + '</b></p>' +
-            '<p>Mean Humidity: <b>' + MeanHumd + '</b></p>' +
-            '<p>Mean Air Quality: <b>' + MeanQual + '</b></p>' +
+            '<p>Mean Tempurature: <b>' + MeanTemp.toFixed(2) + ' C</b></p>' +
+            '<p>Mean Humidity: <b>' + MeanHumd.toFixed(2) + ' %</b></p>' +
+            '<p>Mean Air Quality: <b>' + MeanQual.toFixed(2) + ' %</b></p>' +
             '</div>' +
             '<div align="center"><input type="button" onclick="GetDetails()" class="btn btn-primary" value="Get Route Guide"/></div>' +
             '</div>';
@@ -209,6 +209,7 @@
                     directionsDisplay.setDirections(response);
                     Routes = directionsDisplay.directions.routes;
                     DrawRoute(Routes);
+                    GetRouteQuality(Routes);
                     PutInfoWindow(Routes);
                 }
             });
@@ -221,7 +222,7 @@
             var polyline = new google.maps.Polyline({
                 path: routes[0].overview_path,
                 geodesic: true,
-                strokeColor: '#97e532',
+                strokeColor: '#4286f4',
                 strokeOpacity: 1.0,
                 strokeWeight: 10,
                 map: map,
@@ -248,7 +249,7 @@
                     Polylines.forEach(function (polyline) {
                         polyline.setOptions({ strokeColor: '#787d84', zIndex: 0 });
                     })
-                    this.setOptions({ strokeColor: '#97e532', zIndex: 1 });
+                    this.setOptions({ strokeColor: '#4286f4', zIndex: 1 });
                 })
             })
         }
@@ -297,7 +298,8 @@
                 '<p><img src=\"https://img.icons8.com/metro/1600/car.png\" style=\"width:20px;height:20px;\">&nbsp;' +
                 '<b>' + route.legs[0].duration.text + '</b></p>' +
                 '<p>' + route.legs[0].distance.text + '</p>' +
-                '<input id="btnSelect" type=\"button\" value=\"Select\" onclick=\"FocusRoute(' + number +')\"">' +
+                '<p> Air Quality: ' + parseFloat(Qualities[number].qual).toFixed(2) + ' %</p>' +
+                '<input id="btnSelect" style="' + GetButtonWarningColor(Qualities[number].qual) + '" type=\"button\" value=\"Select\" onclick=\"FocusRoute(' + number +')\"">' +
                 '</div >' +
                 '</div >';
 
@@ -308,13 +310,38 @@
             iw.open(map);
             PolyWindows.push(iw);
         }
+
+        function GetRouteQuality(routes) {
+            routes.forEach(function (route) {
+                var path = route.overview_path;
+                var temp = 0;
+                var humd = 0;
+                var qual = 0;
+                var count = 0;
+                for (var i = 0; i < path.length - 1; i++) {
+                    var result = GetMeanQuality(path[i], path[i + 1]);
+                    //console.log("At " + i + " of " + (path.length-1) + " result: " + result);
+                    temp = result.temp;
+                    humd = result.humd;
+                    qual = result.qual;
+                    if ((!isNaN(result.temp)) && (!isNaN(result.humd)) && (!isNaN(result.qual))) {
+                        count += 1;
+                    }
+                }
+                temp /= count;
+                humd /= count;
+                qual /= count;
+                console.log("Tempurature: " + temp + " | Humidity: " + humd + " | Quality: " + qual);
+                Qualities.push({ temp: temp, humd: humd, qual: qual })
+            })
+        }
     }
 
     function FocusRoute(number) {
         Polylines.forEach(function (polyline) {
             polyline.setOptions({ strokeColor: '#787d84', zIndex: 0 });
         })
-        Polylines[number].setOptions({ strokeColor: '#97e532', zIndex: 1 });
+        Polylines[number].setOptions({ strokeColor: '#4286f4', zIndex: 1 });
     }
 
     function CleanRoutes() {
@@ -331,6 +358,71 @@
         }
         PolyWindows = [];
         Polylines = [];
+    }
+
+    function GetMeanQuality(start_pos, end_pos) {
+        //console.log("Getting quality from " + start_pos.lat() + ", " + start_pos.lng() + "to " + end_pos.lat() + ", " + end_pos.lng());
+
+        var mean_temp = 0;
+        var mean_humd = 0;
+        var mean_qual = 0;
+        var res_count = 0;
+
+        var radius = 14;
+        //Get the distance between 2 points
+        var dist = distance(start_pos.lat(), start_pos.lng(), end_pos.lat(), end_pos.lng());
+        var count = parseInt((dist / radius));
+
+        //Get the quality of the counted values
+        for (var i = 0; i < count; i++) {
+            var lat3 = (start_pos.lat() * (count - i) + end_pos.lat() * i) / count;
+            var lon3 = (start_pos.lng() * (count - i) + end_pos.lng() * i) / count;
+
+            //Loop the resulting model
+            @foreach(var item in Model)
+            {
+                foreach(var res in item.Results)
+                {
+                <text>
+                    dist = distance(lat3, lon3, @res.Latitude, @res.Longtitude);
+                    if (dist < radius) {;
+                        mean_temp += @res.Temperature;
+                        mean_humd += @res.Humidity;
+                        mean_qual += @res.AirQuality;
+                        res_count += 1;
+                    }
+                </text>
+                }
+            }
+        }
+
+        mean_temp /= res_count;
+        mean_humd /= res_count;
+        mean_qual /= res_count;
+        //if (isNaN(mean_temp)) {
+        //    mean_temp = 0;
+        //}
+
+        //if (isNaN(mean_humd)) {
+        //    mean_humd = 0;
+        //}
+
+        //if (isNaN(mean_qual)) {
+        //    mean_qual = 0;
+        //}
+
+        var rtr = { temp: mean_temp, humd: mean_humd, qual: mean_qual }
+        return rtr;
+    }
+
+    function GetButtonWarningColor(quality) {
+        if (quality > 80) {
+            return "background-color: red; color: white;";
+        } else if (quality > 50) {
+            return "background-color: yellow; color: black;";
+        } else {
+            return "background-color: green; color: white;";
+        }
     }
 </script>
 
