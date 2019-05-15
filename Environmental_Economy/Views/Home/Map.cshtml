@@ -222,7 +222,7 @@
             var polyline = new google.maps.Polyline({
                 path: routes[0].overview_path,
                 geodesic: true,
-                strokeColor: '#4286f4',
+                strokeColor: '#97e532',
                 strokeOpacity: 1.0,
                 strokeWeight: 10,
                 map: map,
@@ -249,7 +249,7 @@
                     Polylines.forEach(function (polyline) {
                         polyline.setOptions({ strokeColor: '#787d84', zIndex: 0 });
                     })
-                    this.setOptions({ strokeColor: '#4286f4', zIndex: 1 });
+                    this.setOptions({ strokeColor: '#97e532', zIndex: 1 });
                 })
             })
         }
@@ -341,7 +341,7 @@
         Polylines.forEach(function (polyline) {
             polyline.setOptions({ strokeColor: '#787d84', zIndex: 0 });
         })
-        Polylines[number].setOptions({ strokeColor: '#4286f4', zIndex: 1 });
+        Polylines[number].setOptions({ strokeColor: '#97e532', zIndex: 1 });
     }
 
     function CleanRoutes() {
