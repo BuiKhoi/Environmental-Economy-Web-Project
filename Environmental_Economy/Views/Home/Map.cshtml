@@ -1,30 +1,26 @@
 ﻿@using EnvironmentalEconomy.Models
 @model IEnumerable<ResultDbModel>
 @{
-    /**/
-
-    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_IndexLayout.cshtml";
 }
 <style>
-    html, body {
+    html, body{
         height: 100%;
-        margin: 0;
     }
     /* Set the size of the div element that contains the map */
     #map {
-        margin: auto;
+        position: relative;
+        margin: 0 0 0 0;
         width: 100%;
-    }
-
-    .full-height {
-        height: 87%;
+        height: 40rem;
     }
 
     #txtSearch {
-        width: 83%;
+        width: 80%;
         align-self: center;
-        margin-top: 5px;
+        margin-top: 0.7rem;
+        height: 2rem;
+        padding: 1rem;
         background-color: white;
         border-top-color: rgb(206, 212, 218);
         border-top-style: solid;
@@ -43,7 +39,7 @@
         border-image-width: initial;
         border-image-outset: initial;
         border-image-repeat: initial;
-        border-radius: 1.5rem;
+        border-radius: 0.5rem;
     }
 
     b {
@@ -96,20 +92,16 @@
     }
 </style>
 
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    @Scripts.Render("~/Scripts/Map.js")
-</head>
-
 <!--The div element for the map -->
-<div id="map" class="full-height"></div>
+<div style="display: flex; flex-flow: column; height:100%">
+    <div style="height:5rem"></div>
+    <div id="map" style="flex-grow: 1"></div>
+</div>
 <form>
-    <div class="form-group">
-        <input id="txtSearch" type="text" placeholder="Search For Loction">
+    <div>
+        <input id="txtSearch" type="text" placeholder="Search For Location">
     </div>
 </form>
-@*<button onclick="PanCurrentLocation()" value="Current Location"> Location</button>*@
 
 
 <script>
@@ -117,6 +109,13 @@
     var Polylines = [];
     var PolyWindows = [];
     var Qualities = [];
+
+    EditNavBarFocus();
+
+    function EditNavBarFocus() {
+        document.getElementById("alMap").className = "action-link active";
+    }
+
     function SendScope(circle) {
         coo = GetCoor(circle.getCenter().toString(), circle.getRadius());
         var MeanTemp = 0;
@@ -399,17 +398,6 @@
         mean_temp /= res_count;
         mean_humd /= res_count;
         mean_qual /= res_count;
-        //if (isNaN(mean_temp)) {
-        //    mean_temp = 0;
-        //}
-
-        //if (isNaN(mean_humd)) {
-        //    mean_humd = 0;
-        //}
-
-        //if (isNaN(mean_qual)) {
-        //    mean_qual = 0;
-        //}
 
         var rtr = { temp: mean_temp, humd: mean_humd, qual: mean_qual }
         return rtr;
@@ -431,6 +419,8 @@
 * The key parameter will contain your own API key (which is not needed for this tutorial)
 * The callback parameter executes the initMap() function
 -->
+
+@Scripts.Render("~/Scripts/Map.js")
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoQ6pmUSRHQR2jaOIE66oHHJs9QSPL3vg&callback=initMap&libraries=places,visualization,directions">

@@ -1,0 +1,338 @@
+html, body {
+  height: 100%;
+}
+
+h3 {
+  color: white;
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  #h3 {
+    font-size: 25px;
+    text-align: center;
+  }
+}
+
+a:focus,
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+img {
+  display: inline;
+}
+
+nav {
+  margin-bottom: 0.5rem;
+}
+
+footer {
+  background-color: black;
+  padding: 2.5rem;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+@media (max-width: 992px) {
+  #nav1 {
+    display: none;
+  }
+}
+
+#nav2 {
+  display: none;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 992px) {
+  #nav2 {
+    display: block;
+  }
+}
+
+.logo-text {
+  display: inline;
+  color: black;
+}
+
+@media (max-width: 720px) {
+  .logo-text {
+    display: none;
+  }
+}
+
+.logo-image {
+  height: 2.5rem;
+  width: 2.5rem;
+  margin-right: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.dropdown-item:active {
+  background-color: gray;
+}
+
+.head {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  background-color: white;
+  height: 5rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 2;
+}
+
+.action-link {
+  color: gray;
+  border-bottom: .25rem solid transparent;
+  padding: .25rem 0;
+  margin-left: 1rem;
+}
+
+.action-link:hover, .action-link:focus {
+  color: #ccb078;
+}
+
+.active {
+  color: green !important;
+  border-bottom-color: green;
+}
+
+.text-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+@media (max-width: 992px) {
+  #mte {
+    display: none;
+  }
+}
+
+#nmte {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  #nmte {
+    display: block;
+  }
+}
+
+.btnn {
+  background-color: transparent;
+  border: 0.2rem solid;
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+  color: white;
+  font-size: 18px;
+  height: 4rem;
+  width: 15rem;
+  -webkit-transition: color, background-color, border-color, -webkit-box-shadow;
+  transition: color, background-color, border-color, -webkit-box-shadow;
+  transition: color, background-color, border-color, box-shadow;
+  transition: color, background-color, border-color, box-shadow, -webkit-box-shadow;
+  -webkit-transition: 0.15s, 0.15s, 0.15s, 0.15s;
+  transition: 0.15s, 0.15s, 0.15s, 0.15s;
+  -webkit-transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+          transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+  -webkit-transition-delay: 0s, 0s, 0s, 0s;
+          transition-delay: 0s, 0s, 0s, 0s;
+}
+
+.btn-fill-blue {
+  border-color: #f2c66f;
+  background-color: #f2c66f;
+}
+
+.btn-fill-blue:hover {
+  border-color: #c4a05a;
+  background-color: #c4a05a;
+}
+
+.btn-outline-white {
+  border-color: white;
+}
+
+.btn-outline-white:hover {
+  background-color: white;
+  color: black;
+}
+
+.cover-image {
+  position: relative;
+  background-image: url("https://www.tripsavvy.com/thmb/pePcQqX77-Ms6xcJ7YVzfgMmz3c=/3707x2085/smart/filters:no_upscale()/saigon-ho-chi-minh-city-vietnam-5c489f50c9e77c000112d22b.jpg");
+  text-align: center;
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#cover-image {
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  #cover-image {
+    min-height: 400px;
+  }
+}
+
+.product-ads {
+  padding: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+@media (max-width: 992px) {
+  .product-ads {
+    float: none;
+  }
+}
+
+.fl-rights {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+@media (max-width: 992px) {
+  .fl-rights {
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+  }
+}
+
+.fl-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+@media (max-width: 992px) {
+  .fl-left {
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    width: 100% !important;
+  }
+}
+
+.discover-product {
+  padding: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .discover-product {
+    padding: 0px;
+  }
+}
+
+.dev-team {
+  background-color: white;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.dev-img {
+  width: 20%;
+  position: relative;
+}
+
+@media (max-width: 992px) {
+  .dev-img {
+    width: 100%;
+  }
+}
+
+.dev-img:hover .overlay-image {
+  opacity: 0.7;
+}
+
+.fa {
+  font-size: 40px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  color: gray;
+}
+
+.fa:hover {
+  color: white;
+}
+
+.overlay-image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+  background-color: #3c3f42;
+}
+
+.overlay-text {
+  color: white;
+  font-size: 22px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+/*# sourceMappingURL=styles.css.map */
