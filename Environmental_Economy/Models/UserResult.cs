@@ -7,7 +7,7 @@ namespace EnvironmentalEconomy.Models
     public class UserResult
     {
         public double Latitude { get; set; }
-        public double Longtitude { get; set; }
+        public double Longitude { get; set; }
         public double Temperature { get; set; }
         public double Humidity { get; set; }
         public double AirQuality { get; set; }

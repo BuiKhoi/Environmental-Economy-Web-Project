@@ -127,7 +127,7 @@
             foreach(var res in item.Results)
             {
                 <text>
-                    var dist = distance(coo.latitude, coo.longitude, @res.Latitude, @res.Longtitude);
+                    var dist = distance(coo.latitude, coo.longitude, @res.Latitude, @res.Longitude);
             if (dist < coo.radius) {
                         MeanTemp += @res.Temperature;
                     MeanHumd += @res.Humidity;
@@ -171,11 +171,12 @@
         foreach(var res in item.Results)
         {
             <text>points.push({
-                location: new google.maps.LatLng(@res.Latitude, @res.Longtitude),
+                location: new google.maps.LatLng(@res.Latitude, @res.Longitude),
                 weight: @res.AirQuality * 0.1
-                    })</text>
+        })</text>
         }
     }
+        //console.log(points[0]);
     return points;
     }
 
@@ -383,7 +384,7 @@
                 foreach(var res in item.Results)
                 {
                 <text>
-                    dist = distance(lat3, lon3, @res.Latitude, @res.Longtitude);
+                    dist = distance(lat3, lon3, @res.Latitude, @res.Longitude);
                     if (dist < radius) {;
                         mean_temp += @res.Temperature;
                         mean_humd += @res.Humidity;
